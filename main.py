@@ -36,6 +36,7 @@ key = Key("key")
 dynamite = Dynamite("dynamite")
 lighter = Lighter("lighter")
 
+
 class Place:
     def __init__(self, name):
         self.name = name
@@ -45,6 +46,9 @@ class Place:
         for place in all_places:
             if place.name != place_to_enter.name:
                 place.entered = False
+        if place_to_enter != first and place_to_enter != main_room:
+            print(place_to_enter.display())
+            info()
 
 class First(Place):
     def describe(self):
@@ -58,7 +62,7 @@ class Stone(Place):
     entered = False
     destroyed = False
     def display(self):
-        return "a big stone, you can see little sun gaps behind it"
+        return "A big stone, you can see little sun gaps behind it. "
     def describe(self):
         return print("There should be exit behind it, but it is too heave to move it. Maybe you should destroy it, but how...")
 
@@ -66,7 +70,7 @@ class Trunk(Place):
     entered = False
     open = False
     def display(self):
-        return "the closed trunk, it has a hole for key"
+        return "The closed trunk, it has a hole for key"
     def describe(self):
         if self.open == True:
             return print("Ooo, there is dynamite inside. Take it, it can be useful.")
@@ -77,7 +81,7 @@ class Puddle(Place):
     entered = False
     empty = False
     def display(self):
-        return "in the center of the room, there is a huge puddle, there is something on the bottom but you can't see it"
+        return "In the center of the room, there is a huge puddle, there is something on the bottom but you can't see it"
     def describe(self):
         if self.empty == True:
             return print("You get all the water out of the puddle and you see an old, little key at the bottom. Try to get it")
@@ -123,7 +127,9 @@ def main_commands(select_action):
         going_back()
     else:
         print("Wrong command")
-    
+
+def info():
+    print("Try to do something with that or get back to the main room (type \"back\").")
     
 
 def sleep_and_print_empty_line(seconds):
@@ -148,8 +154,7 @@ def using(select_action):
     else:
         for item in inventory:
             if item.name in select_action:
-                using_item = item
-                  
+                using_item = item       
 
         if first.entered == True:
             correct_item(flashlight, using_item)
@@ -189,6 +194,8 @@ def going(select_action):
     for place in all_places:
         if place.name in select_action:
             Place.entering(place)
+            
+            
 
 def display_inventory():
     for item in inventory:
@@ -205,7 +212,6 @@ def help():
 def describe():
     for place in all_places:
         if place.entered == True:
-            print(place.name)
             place.describe()
             break
 def going_back():
@@ -227,12 +233,11 @@ def chapter2():
     while True:
         select_action = input("Select an action: ").lower()
         main_commands(select_action)
-        if puddle.entered == True:
+        while puddle.entered == True:
             if key in inventory:
                 print("Nothing more to do here.")
                 Place.entering(main_room)
                 continue
-            print("Here is a lot of water, but you can see something on the button. Try to do something with that or get back to the main room (type \"back\").")
             select_action = input("Select an action: ").lower()
             main_commands(select_action)
             if bucket.used == True:
@@ -242,12 +247,11 @@ def chapter2():
                 main_commands(select_action)
                 Place.entering(main_room)
                 continue
-        if trunk.entered == True:
+        while trunk.entered == True:
             if dynamite in inventory:
                 print("Nothing more to do here.")
                 Place.entering(main_room)
                 continue
-            print("An old trunk, it is locked. Maybe there is any key for that... Try to do something with that or get back to the main room (type \"back\").")
             select_action = input("Select an action: ").lower()
             main_commands(select_action)
             if key.used == True:
@@ -257,30 +261,28 @@ def chapter2():
                 main_commands(select_action)
                 Place.entering(main_room)
                 continue
-        if stone.entered == True:
-            print("A big stone, you can see little sun gaps behind it. Try to do something with that or get back to the main room (type \"back\").")
-            while True:
-                select_action = input("Select an action: ").lower()
-                main_commands(select_action)
-                if lighter.used == True and dynamite.used == True:
-                    print("Congratulations! The game is over, you are free.")
-                    sys.exit(0)
-                elif lighter.used == True:
-                    print("Hmm, nice but something is missing...")
-                elif dynamite.used == True:
-                    print("Okey, but you need some fire.")
+        while stone.entered == True:
+            select_action = input("Select an action: ").lower()
+            main_commands(select_action)
+            if lighter.used == True and dynamite.used == True:
+                print("Congratulations! The game is over, you are free.")
+                sys.exit(0)
+            elif lighter.used == True:
+                print("Hmm, nice but something is missing...")
+            elif dynamite.used == True:
+                print("Okey, but you need some fire.")
 
 
 def main():
     user_name = input('Enter your name: ').capitalize()
     print(f"Hello, {user_name}! Now, you are in the cave. You don't know how and why you are here, but it is not important. Here is so dark and spooky, you can hear some sounds and they aren't nice. You are getting scared and only you can do it is try to escape from here. Let's start.")
-    sleep_and_print_empty_line(8)
+    # sleep_and_print_empty_line(2)
     print("Okey, first have a look at help. There are all commands whose you can use when you play. You can check help all time typing \"help\" in terminal.")
-    sleep_and_print_empty_line(8)
+    # sleep_and_print_empty_line(2)
     help()
-    sleep_and_print_empty_line(8)
+    # sleep_and_print_empty_line(2)
     print("Hmmm..., you already know something but you don't see anything. Look at your inventory and check if you have something that can help you.")
-    sleep_and_print_empty_line(5)
+    # sleep_and_print_empty_line(2)
 
     while True:
         Place.entering(first)
