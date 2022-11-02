@@ -276,13 +276,13 @@ def chapter2():
 def main():
     user_name = input('Enter your name: ').capitalize()
     print(f"Hello, {user_name}! Now, you are in the cave. You don't know how and why you are here, but it is not important. Here is so dark and spooky, you can hear some sounds and they aren't nice. You are getting scared and only you can do it is try to escape from here. Let's start.")
-    # sleep_and_print_empty_line(2)
+    sleep_and_print_empty_line(4)
     print("Okey, first have a look at help. There are all commands whose you can use when you play. You can check help all time typing \"help\" in terminal.")
-    # sleep_and_print_empty_line(2)
+    sleep_and_print_empty_line(4)
     help()
-    # sleep_and_print_empty_line(2)
+    sleep_and_print_empty_line(4)
     print("Hmmm..., you already know something but you don't see anything. Look at your inventory and check if you have something that can help you.")
-    # sleep_and_print_empty_line(2)
+    sleep_and_print_empty_line(4)
 
     while True:
         Place.entering(first)
